@@ -650,27 +650,21 @@
         const { useState, useEffect, useRef } = React;
         
         function App() {
-            const [guides, setGuides] = useState(() => {
-                const saved = localStorage.getItem('guideMoto');
-                if (saved) {
-                    return JSON.parse(saved);
-                }
-                return [];
-            });
+            const [guides, setGuides] = useState([]);
             
             const [searchTerm, setSearchTerm] = useState('');
             const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
             const [editingCell, setEditingCell] = useState(null);
             const [editValue, setEditValue] = useState('');
             const [lastBackup, setLastBackup] = useState(() => {
-                return localStorage.getItem('lastBackupDate') || null;
+                return localStorage.getItem('lastBackupDateViewer') || null;
             });
             const fileInputRef = useRef(null);
             
             useEffect(() => {
-                localStorage.setItem('guideMoto', JSON.stringify(guides));
+                localStorage.setItem('guideMotoViewer', JSON.stringify(guides));
                 const now = new Date().toLocaleString('it-IT');
-                localStorage.setItem('lastBackupDate', now);
+                localStorage.setItem('lastBackupDateViewer', now);
                 setLastBackup(now);
             }, [guides]);
             

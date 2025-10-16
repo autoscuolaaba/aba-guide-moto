@@ -461,10 +461,22 @@
             white-space: nowrap;
         }
         
+        th.highlight-column {
+            background: #fef2f2;
+            color: #dc2626;
+            font-size: 0.85em;
+            font-weight: 700;
+            border-bottom: 3px solid #dc2626;
+        }
+        
         @media (min-width: 768px) {
             th {
                 padding: 14px 16px;
                 font-size: 0.8em;
+            }
+            
+            th.highlight-column {
+                font-size: 0.95em;
             }
         }
         
@@ -475,9 +487,21 @@
             font-size: 0.85em;
         }
         
+        td.highlight-column {
+            background: #fef9f5;
+            font-size: 1em;
+            font-weight: 600;
+            border-left: 2px solid #fecaca;
+            border-right: 2px solid #fecaca;
+        }
+        
         @media (min-width: 768px) {
             td {
                 padding: 14px 16px;
+            }
+            
+            td.highlight-column {
+                font-size: 1.05em;
             }
         }
         
@@ -650,9 +674,18 @@
         const { useState, useEffect, useRef } = React;
         
         function App() {
-            const [guides, setGuides] = useState([]);
+            const [guides, setGuides] = useState(() => {
+                const saved = localStorage.getItem('guideMotoViewer');
+                if (saved) {
+                    try {
+                        return JSON.parse(saved);
+                    } catch (e) {
+                        return [];
+                    }
+                }
+                return [];
+            });
             
-            const [searchTerm, setSearchTerm] = useState('');
             const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
             const [editingCell, setEditingCell] = useState(null);
             const [editValue, setEditValue] = useState('');
@@ -667,30 +700,6 @@
                 localStorage.setItem('lastBackupDateViewer', now);
                 setLastBackup(now);
             }, [guides]);
-            
-            const exportData = () => {
-                const dataToExport = {
-                    version: '1.0',
-                    exportDate: new Date().toISOString(),
-                    totalGuides: guides.length,
-                    guides: guides
-                };
-                
-                const jsonString = JSON.stringify(dataToExport, null, 2);
-                const blob = new Blob([jsonString], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = `backup_guide_moto_${new Date().toISOString().split('T')[0]}.json`;
-                
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(url);
-                
-                alert(`✅ Backup completato!\n\n${guides.length} guide salvate.\n\nIl file è stato scaricato. Puoi usarlo anche da telefono per ripristinare i dati.`);
-            };
             
             const importData = (event) => {
                 const file = event.target.files[0];
@@ -785,9 +794,17 @@ END:VCARD`;
             };
             
             const shareGarageLocation = () => {
-                const garageMessage = encodeURIComponent('📍 Ciao! Ecco la posizione del nostro garage moto ABA Autoscuole:');
-                const garageLink = 'https://maps.app.goo.gl/zVkCBZv4vV1RunDYc';
+                const garageMessage = encodeURIComponent('🏍️ Ciao! Ecco la posizione del Garage:');
+                const garageLink = 'https://www.google.com/maps/search/?api=1&query=Via+Marco+Sasso+33+Bassano+del+Grappa';
                 const whatsappUrl = `https://wa.me/?text=${garageMessage}%0A%0A${encodeURIComponent(garageLink)}`;
+                
+                window.open(whatsappUrl, '_blank');
+            };
+            
+            const shareDistributoreLocation = () => {
+                const distributoreMessage = encodeURIComponent('⛽ Ciao! Ecco il punto di ritrovo al Distributore Esso:');
+                const distributoreLink = 'https://www.google.com/maps/search/?api=1&query=Esso+Viale+Pecori+Giraldi+2+Bassano+del+Grappa';
+                const whatsappUrl = `https://wa.me/?text=${distributoreMessage}%0A%0A${encodeURIComponent(distributoreLink)}`;
                 
                 window.open(whatsappUrl, '_blank');
             };
@@ -806,14 +823,6 @@ END:VCARD`;
                 if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
                 if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
                 return 0;
-            });
-            
-            const filteredGuides = sortedGuides.filter(g => {
-                const searchLower = searchTerm.toLowerCase();
-                return g.cognome.toLowerCase().includes(searchLower) ||
-                       g.nome.toLowerCase().includes(searchLower) ||
-                       g.categoria.toLowerCase().includes(searchLower) ||
-                       g.cellulare.includes(searchTerm);
             });
             
             const getRowClass = (scadenza) => {
@@ -851,22 +860,14 @@ END:VCARD`;
                             <text x="150" y="65" fontFamily="Arial Black, sans-serif" fontSize="48" fontWeight="900" textAnchor="middle" fill="white">ABA</text>
                             <text x="150" y="85" fontFamily="Arial, sans-serif" fontSize="16" textAnchor="middle" fill="white">AUTOSCUOLE</text>
                         </svg>
-                        <h1>GESTIONE GUIDE MOTO</h1>
-                        <p>Visualizzatore guide moto</p>
+                        <h1>GESTIONE GUIDE MOTO PER IL PAPI ❤️</h1>
                         
                         <div className="backup-controls">
-                            <button onClick={exportData} className="backup-btn backup-btn-export">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
-                                    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-                                </svg>
-                                Esporta Backup
-                            </button>
-                            
-                            <label className="backup-btn backup-btn-import">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
+                            <label className="backup-btn backup-btn-import" style={{fontSize: '1.1em', padding: '14px 24px'}}>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
                                     <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/>
                                 </svg>
-                                Importa Backup
+                                📂 IMPORTA DATI DALL'UFFICIO
                                 <input
                                     ref={fileInputRef}
                                     type="file"
@@ -881,7 +882,7 @@ END:VCARD`;
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                                         <path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
                                     </svg>
-                                    Salvataggio: {lastBackup}
+                                    Ultimo aggiornamento: {lastBackup}
                                 </div>
                             )}
                         </div>
@@ -919,18 +920,7 @@ END:VCARD`;
                     </div>
                     
                     <div className="table-section">
-                        <div className="table-header">
-                            <div className="search-box">
-                                <input
-                                    type="text"
-                                    placeholder="Cerca per nome o telefono..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                />
-                            </div>
-                        </div>
-                        
-                        {filteredGuides.length > 0 ? (
+                        {sortedGuides.length > 0 ? (
                             <div className="table-wrapper">
                                 <table>
                                     <thead>
@@ -948,7 +938,7 @@ END:VCARD`;
                                             <th onClick={() => handleSort('emissione')}>
                                                 Emissione {sortConfig.key === 'emissione' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
                                             </th>
-                                            <th onClick={() => handleSort('scadenza')}>
+                                            <th onClick={() => handleSort('scadenza')} className="highlight-column">
                                                 Scadenza F.R. {sortConfig.key === 'scadenza' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
                                             </th>
                                             <th>Cellulare</th>
@@ -956,7 +946,7 @@ END:VCARD`;
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {filteredGuides.map((guide, index) => (
+                                        {sortedGuides.map((guide, index) => (
                                             <tr key={guide.id} className={getRowClass(guide.scadenza)}>
                                                 <td>{index + 1}</td>
                                                 <td>
@@ -1042,7 +1032,7 @@ END:VCARD`;
                                                         </span>
                                                     )}
                                                 </td>
-                                                <td>
+                                                <td className="highlight-column">
                                                     {(() => {
                                                         const today = new Date();
                                                         const expDate = new Date(guide.scadenza);
@@ -1050,7 +1040,7 @@ END:VCARD`;
                                                         
                                                         return (
                                                             <div style={{display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap'}}>
-                                                                <span style={{whiteSpace: 'nowrap'}}>{new Date(guide.scadenza).toLocaleDateString('it-IT')}</span>
+                                                                <span style={{whiteSpace: 'nowrap', fontSize: '1.05em', fontWeight: '700'}}>{new Date(guide.scadenza).toLocaleDateString('it-IT')}</span>
                                                                 {diffDays < 0 && <span className="status-indicator expired">SCADUTO</span>}
                                                                 {diffDays >= 0 && diffDays <= 30 && <span className="status-indicator warning">{diffDays}gg</span>}
                                                             </div>
@@ -1068,7 +1058,7 @@ END:VCARD`;
                                                             autoFocus
                                                         />
                                                     ) : (
-                                                        <div style={{display: 'flex', alignItems: 'center', gap: '6px'}}>
+                                                        <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
                                                             <span 
                                                                 className="editable" 
                                                                 onClick={() => startEditing(guide.id, 'cellulare', guide.cellulare)}
@@ -1124,18 +1114,19 @@ END:VCARD`;
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
                                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                             </svg>
-                            Garage Moto ABA
+                            🏍️ Garage Moto ABA
                         </h3>
-                        <p>Condividi la posizione del nostro garage con gli allievi</p>
+                        <p style={{fontSize: '0.9em', marginBottom: '8px'}}>📍 Via Marco Sasso, 33 - Bassano del Grappa (VI)</p>
+                        <p style={{fontSize: '0.85em', opacity: '0.9'}}>Punto di partenza per le guide avanzate</p>
                         <div className="location-buttons">
                             <button onClick={shareGarageLocation} className="location-btn location-btn-whatsapp">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
                                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.149-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
                                 </svg>
-                                Condividi su WhatsApp
+                                Condividi Garage
                             </button>
                             <a 
-                                href="https://maps.app.goo.gl/zVkCBZv4vV1RunDYc" 
+                                href="https://www.google.com/maps/search/?api=1&query=Via+Marco+Sasso+33+Bassano+del+Grappa" 
                                 target="_blank" 
                                 rel="noopener noreferrer"
                                 className="location-btn location-btn-maps"
@@ -1143,17 +1134,50 @@ END:VCARD`;
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                                 </svg>
-                                Apri in Google Maps
+                                Apri Garage in Maps
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div className="location-widget" style={{background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)', boxShadow: '0 4px 12px rgba(59, 130, 246, 0.2)'}}>
+                        <h3>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                            </svg>
+                            ⛽ Punto di Ritrovo - Distributore Esso
+                        </h3>
+                        <p style={{fontSize: '0.9em', marginBottom: '8px'}}>📍 Viale Pecori Giraldi, 2 - Bassano del Grappa (VI)</p>
+                        <p style={{fontSize: '0.85em', opacity: '0.9'}}>Qui ci troviamo per le prime guide!</p>
+                        <div className="location-buttons">
+                            <button onClick={shareDistributoreLocation} className="location-btn location-btn-whatsapp">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+                                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.149-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                                </svg>
+                                Condividi Distributore
+                            </button>
+                            <a 
+                                href="https://www.google.com/maps/search/?api=1&query=Esso+Viale+Pecori+Giraldi+2+Bassano+del+Grappa" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="location-btn location-btn-maps"
+                            >
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                                </svg>
+                                Apri Distributore in Maps
                             </a>
                         </div>
                     </div>
                     
                     <div className="copyright-footer">
-                        <strong>© 2025 ABA Autoscuole</strong><br/>
-                        Tutti i diritti riservati - Software di gestione guide moto<br/>
-                        <small>
-                            Questo software è protetto da copyright. È vietata la riproduzione, distribuzione o modifica
-                            senza autorizzazione scritta di ABA Autoscuole.
+                        <strong style={{fontSize: '1.1em', color: '#dc2626'}}>❤️ Fatto con amore per il Papà ❤️</strong><br/><br/>
+                        <span style={{fontSize: '0.95em'}}>
+                            Questa app è stata creata appositamente per te, papà!<br/>
+                            Anche se la tecnologia non è il tuo forte, so che ce la farai benissimo 💪<br/>
+                            Ti voglio bene e sono orgoglioso/a di te! 🏍️
+                        </span><br/><br/>
+                        <small style={{opacity: '0.7'}}>
+                            P.S. Se hai dubbi, chiamami! Sono sempre qui per aiutarti 😊
                         </small>
                     </div>
                 </div>

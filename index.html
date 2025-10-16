@@ -7,8 +7,6 @@
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -369,185 +367,6 @@
             color: #f59e0b;
         }
         
-        .form-section {
-            background: white;
-            border: 1px solid #e5e5e5;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        
-        @media (min-width: 768px) {
-            .form-section {
-                border-radius: 16px;
-                padding: 32px;
-                margin-bottom: 32px;
-            }
-        }
-        
-        .form-title {
-            font-size: 1.2em;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #1a1a1a;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        @media (min-width: 768px) {
-            .form-title {
-                font-size: 1.5em;
-                margin-bottom: 24px;
-                gap: 12px;
-            }
-        }
-        
-        .form-title::before {
-            content: '+';
-            width: 24px;
-            height: 24px;
-            background: #dc2626;
-            color: white;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1em;
-            font-weight: 400;
-        }
-        
-        @media (min-width: 768px) {
-            .form-title::before {
-                width: 28px;
-                height: 28px;
-                font-size: 1.2em;
-            }
-        }
-        
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-        
-        @media (min-width: 640px) {
-            .form-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (min-width: 1024px) {
-            .form-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 20px;
-                margin-bottom: 24px;
-            }
-        }
-        
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .form-group label {
-            font-size: 0.85em;
-            color: #4b5563;
-            margin-bottom: 6px;
-            font-weight: 500;
-        }
-        
-        .form-group input, .form-group select {
-            padding: 12px 14px;
-            background: #fafafa;
-            border: 1px solid #e5e5e5;
-            border-radius: 8px;
-            color: #1a1a1a;
-            font-size: 16px;
-            transition: all 0.2s;
-        }
-        
-        @media (min-width: 768px) {
-            .form-group input, .form-group select {
-                padding: 10px 14px;
-                font-size: 0.95em;
-            }
-        }
-        
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #dc2626;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
-        }
-        
-        .scadenza-info {
-            padding: 10px;
-            background: #fef2f2;
-            border: 1px solid #fecaca;
-            border-radius: 6px;
-            color: #dc2626;
-            font-size: 0.85em;
-            text-align: center;
-            font-weight: 500;
-        }
-        
-        @media (min-width: 768px) {
-            .scadenza-info {
-                font-size: 0.9em;
-            }
-        }
-        
-        .btn {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.9em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            width: 100%;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        @media (min-width: 768px) {
-            .btn {
-                width: auto;
-                padding: 10px 20px;
-                font-size: 0.95em;
-            }
-        }
-        
-        .btn-primary {
-            background: #dc2626;
-            color: white;
-        }
-        
-        .btn-primary:active {
-            background: #b91c1c;
-            transform: scale(0.98);
-        }
-        
-        .btn-success {
-            background: white;
-            border: 2px solid #10b981;
-            color: #10b981;
-        }
-        
-        .btn-success:active {
-            background: #10b981;
-            color: white;
-            transform: scale(0.98);
-        }
-        
         .table-section {
             background: white;
             border: 1px solid #e5e5e5;
@@ -728,15 +547,15 @@
         }
         
         .icon-btn {
-            width: 32px;
-            height: 32px;
-            border: 1px solid #e5e5e5;
-            border-radius: 6px;
+            width: 44px;
+            height: 44px;
+            border: 2px solid #10b981;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s;
             background: white;
-            color: #dc2626;
-            font-size: 1.2em;
+            color: #10b981;
+            font-size: 1.5em;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -744,8 +563,8 @@
         }
         
         .icon-btn:active {
-            background: #fef2f2;
-            border-color: #dc2626;
+            background: #10b981;
+            color: white;
             transform: scale(0.95);
         }
         
@@ -836,25 +655,7 @@
                 if (saved) {
                     return JSON.parse(saved);
                 }
-                return [
-                    { id: 1, cognome: "BOLLA", nome: "MATTIA", categoria: "A", emissione: "2024-09-08", scadenza: "2025-09-08", cellulare: "340/3758452" },
-                    { id: 2, cognome: "TELLATIN", nome: "MASSIMO", categoria: "A", emissione: "2024-09-20", scadenza: "2025-09-20", cellulare: "333/2756545" },
-                    { id: 3, cognome: "BRESOLIN", nome: "LUCA", categoria: "A", emissione: "2024-09-20", scadenza: "2025-09-20", cellulare: "342/1969527" },
-                    { id: 4, cognome: "VETTORI", nome: "MATTIA", categoria: "A1", emissione: "2024-11-04", scadenza: "2025-11-04", cellulare: "371/3182643" },
-                    { id: 5, cognome: "ROSSI", nome: "GIULIO", categoria: "AM", emissione: "2025-03-25", scadenza: "2026-03-25", cellulare: "389/5287781" },
-                    { id: 6, cognome: "CASTAGNA", nome: "ANDREA", categoria: "A1", emissione: "2025-03-25", scadenza: "2026-03-25", cellulare: "388/8038823" },
-                    { id: 7, cognome: "TRETTI", nome: "ALESSANDRO", categoria: "A", emissione: "2025-04-18", scadenza: "2026-04-18", cellulare: "377/3105847" },
-                    { id: 8, cognome: "TOSIN", nome: "MIRKO", categoria: "A", emissione: "2025-05-09", scadenza: "2026-05-09", cellulare: "340/6183507" },
-                    { id: 9, cognome: "CERANTOLA", nome: "SAMUEL", categoria: "A1", emissione: "2025-05-30", scadenza: "2026-05-30", cellulare: "327/9419737" }
-                ];
-            });
-            
-            const [formData, setFormData] = useState({
-                cognome: '',
-                nome: '',
-                categoria: 'A',
-                emissione: '',
-                cellulare: ''
+                return [];
             });
             
             const [searchTerm, setSearchTerm] = useState('');
@@ -930,46 +731,6 @@
                 event.target.value = '';
             };
             
-            const calculateExpiration = (emissionDate) => {
-                if (!emissionDate) return '';
-                const date = new Date(emissionDate);
-                date.setFullYear(date.getFullYear() + 1);
-                return date.toISOString().split('T')[0];
-            };
-            
-            const handleInputChange = (e) => {
-                const newFormData = {
-                    ...formData,
-                    [e.target.name]: e.target.value
-                };
-                setFormData(newFormData);
-            };
-            
-            const handleSubmit = (e) => {
-                e.preventDefault();
-                if (formData.cognome && formData.nome && formData.emissione && formData.cellulare) {
-                    const newGuide = {
-                        ...formData,
-                        scadenza: calculateExpiration(formData.emissione),
-                        id: Date.now()
-                    };
-                    setGuides([...guides, newGuide]);
-                    setFormData({
-                        cognome: '',
-                        nome: '',
-                        categoria: 'A',
-                        emissione: '',
-                        cellulare: ''
-                    });
-                }
-            };
-            
-            const handleDelete = (id) => {
-                if (confirm('Sei sicuro di voler eliminare questa guida?')) {
-                    setGuides(guides.filter(g => g.id !== id));
-                }
-            };
-            
             const handleSort = (key) => {
                 let direction = 'asc';
                 if (sortConfig.key === key && sortConfig.direction === 'asc') {
@@ -982,6 +743,12 @@
                 setGuides(guides.map(g => {
                     if (g.id === id) {
                         if (field === 'emissione') {
+                            const calculateExpiration = (emissionDate) => {
+                                if (!emissionDate) return '';
+                                const date = new Date(emissionDate);
+                                date.setFullYear(date.getFullYear() + 1);
+                                return date.toISOString().split('T')[0];
+                            };
                             return { ...g, [field]: value, scadenza: calculateExpiration(value) };
                         }
                         return { ...g, [field]: value };
@@ -1021,73 +788,6 @@ END:VCARD`;
                 URL.revokeObjectURL(url);
                 
                 alert(`Contatto salvato: ${guide.cognome} ${guide.nome} - ${guide.categoria}\n\nIl file .vcf è stato scaricato. Aprilo per aggiungere il contatto alla tua rubrica.`);
-            };
-            
-            const exportToPDF = () => {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
-                
-                // Header del documento
-                doc.setFontSize(20);
-                doc.text('LISTA GUIDE MOTO', 105, 15, { align: 'center' });
-                doc.setFontSize(12);
-                doc.text('© ABA Autoscuole - Sistema Gestione Guide', 105, 23, { align: 'center' });
-                doc.setFontSize(10);
-                doc.text('Documento generato automaticamente - Dati protetti da copyright', 105, 29, { align: 'center' });
-                
-                const tableData = sortedGuides.map((g, i) => [
-                    i + 1,
-                    `${g.cognome} ${g.nome}`,
-                    g.categoria,
-                    new Date(g.emissione).toLocaleDateString('it-IT'),
-                    new Date(g.scadenza).toLocaleDateString('it-IT'),
-                    g.cellulare || '-'
-                ]);
-                
-                doc.autoTable({
-                    head: [['#', 'COGNOME E NOME', 'CAT', 'EMISSIONE', 'SCADENZA F.R.', 'CELLULARE']],
-                    body: tableData,
-                    startY: 37,
-                    styles: { 
-                        fontSize: 11,
-                        cellPadding: 3
-                    },
-                    headStyles: { 
-                        fillColor: [220, 38, 38],
-                        fontSize: 10,
-                        fontStyle: 'bold',
-                        cellPadding: 2
-                    },
-                    columnStyles: {
-                        0: { cellWidth: 8, halign: 'center' },
-                        1: { cellWidth: 65 },
-                        2: { cellWidth: 12, halign: 'center' },
-                        3: { cellWidth: 28, halign: 'center' },
-                        4: { cellWidth: 32, halign: 'center' },
-                        5: { cellWidth: 35, textColor: [37, 211, 102] }
-                    },
-                    didDrawCell: function(data) {
-                        // Link WhatsApp per i numeri di telefono
-                        if (data.column.index === 5 && data.cell.section === 'body' && data.cell.raw && data.cell.raw !== '-') {
-                            const telNumber = data.cell.raw.replace(/[^0-9]/g, '');
-                            const nome = tableData[data.row.index][1].split(' ')[1];
-                            const categoria = tableData[data.row.index][2];
-                            if (telNumber) {
-                                doc.link(data.cell.x, data.cell.y, data.cell.width, data.cell.height, {
-                                    url: `https://wa.me/39${telNumber}?text=Ciao ${nome}, ti contatto dalla scuola guida ABA per la tua guida moto categoria ${categoria}.`
-                                });
-                            }
-                        }
-                    }
-                });
-                
-                // Footer
-                doc.setFontSize(10);
-                doc.text('Documento generato il ' + new Date().toLocaleDateString('it-IT') + ' alle ore ' + new Date().toLocaleTimeString('it-IT'), 14, doc.internal.pageSize.height - 15);
-                doc.text('© 2025 ABA Autoscuole - Tutti i diritti riservati', 14, doc.internal.pageSize.height - 10);
-                doc.text('Software proprietario - Vietata la riproduzione', 14, doc.internal.pageSize.height - 5);
-                
-                doc.save('lista_guide_moto.pdf');
             };
             
             const shareGarageLocation = () => {
@@ -1158,7 +858,7 @@ END:VCARD`;
                             <text x="150" y="85" fontFamily="Arial, sans-serif" fontSize="16" textAnchor="middle" fill="white">AUTOSCUOLE</text>
                         </svg>
                         <h1>GESTIONE GUIDE MOTO</h1>
-                        <p>Sistema di gestione guide moto</p>
+                        <p>Visualizzatore guide moto</p>
                         
                         <div className="backup-controls">
                             <button onClick={exportData} className="backup-btn backup-btn-export">
@@ -1224,83 +924,6 @@ END:VCARD`;
                         </div>
                     </div>
                     
-                    <div className="form-section">
-                        <h2 className="form-title">
-                            Nuova Guida Moto
-                        </h2>
-                        <form onSubmit={handleSubmit}>
-                            <div className="form-grid">
-                                <div className="form-group">
-                                    <label>Cognome *</label>
-                                    <input
-                                        type="text"
-                                        name="cognome"
-                                        value={formData.cognome}
-                                        onChange={handleInputChange}
-                                        placeholder="Es. Rossi"
-                                        required
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label>Nome *</label>
-                                    <input
-                                        type="text"
-                                        name="nome"
-                                        value={formData.nome}
-                                        onChange={handleInputChange}
-                                        placeholder="Es. Mario"
-                                        required
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label>Categoria *</label>
-                                    <select
-                                        name="categoria"
-                                        value={formData.categoria}
-                                        onChange={handleInputChange}
-                                    >
-                                        <option value="AM">AM - Ciclomotori</option>
-                                        <option value="A1">A1 - 125cc</option>
-                                        <option value="A2">A2 - Potenza limitata</option>
-                                        <option value="A">A - Completa</option>
-                                    </select>
-                                </div>
-                                <div className="form-group">
-                                    <label>Data Emissione Foglio Rosa *</label>
-                                    <input
-                                        type="date"
-                                        name="emissione"
-                                        value={formData.emissione}
-                                        onChange={handleInputChange}
-                                        required
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label>Scadenza (Automatica)</label>
-                                    <div className="scadenza-info">
-                                        {formData.emissione ? 
-                                            `Scadenza: ${new Date(calculateExpiration(formData.emissione)).toLocaleDateString('it-IT')}` 
-                                            : 'La scadenza verrà calcolata automaticamente'}
-                                    </div>
-                                </div>
-                                <div className="form-group">
-                                    <label>Cellulare *</label>
-                                    <input
-                                        type="text"
-                                        name="cellulare"
-                                        value={formData.cellulare}
-                                        onChange={handleInputChange}
-                                        placeholder="333/1234567"
-                                        required
-                                    />
-                                </div>
-                            </div>
-                            <button type="submit" className="btn btn-primary">
-                                Aggiungi Guida
-                            </button>
-                        </form>
-                    </div>
-                    
                     <div className="table-section">
                         <div className="table-header">
                             <div className="search-box">
@@ -1311,9 +934,6 @@ END:VCARD`;
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
                             </div>
-                            <button onClick={exportToPDF} className="btn btn-success">
-                                Esporta PDF
-                            </button>
                         </div>
                         
                         {filteredGuides.length > 0 ? (
@@ -1483,18 +1103,10 @@ END:VCARD`;
                                                             className="icon-btn" 
                                                             onClick={() => saveToContacts(guide)}
                                                             title="Salva in rubrica"
-                                                            style={{color: '#10b981'}}
                                                         >
-                                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                                                                 <path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
                                                             </svg>
-                                                        </button>
-                                                        <button 
-                                                            className="icon-btn" 
-                                                            onClick={() => handleDelete(guide.id)}
-                                                            title="Elimina"
-                                                        >
-                                                            ×
                                                         </button>
                                                     </div>
                                                 </td>
@@ -1505,9 +1117,9 @@ END:VCARD`;
                             </div>
                         ) : (
                             <div className="empty-state">
-                                <p>Nessuna guida trovata</p>
+                                <p>📋 Nessuna guida presente</p>
                                 <p style={{fontSize: '0.85em', marginTop: '10px'}}>
-                                    Aggiungi la prima guida usando il form sopra
+                                    Importa un backup dall'ufficio per visualizzare i dati
                                 </p>
                             </div>
                         )}

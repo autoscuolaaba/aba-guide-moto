@@ -442,19 +442,28 @@
         }
         
         .table-wrapper::after {
-            content: '← Scorri per vedere tutto →';
+            content: '⬅️ SCORRI PER VEDERE TUTTO ➡️';
             position: sticky;
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(to top, #fef2f2, transparent);
-            padding: 8px;
+            background: linear-gradient(to top, #dc2626, #ef4444);
+            padding: 16px 12px;
             text-align: center;
-            font-size: 0.75em;
-            color: #dc2626;
-            font-weight: 600;
+            font-size: 1.1em;
+            color: white;
+            font-weight: 800;
             pointer-events: none;
             display: block;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            border-radius: 8px 8px 0 0;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.9; transform: scale(1.02); }
         }
         
         @media (min-width: 1024px) {
@@ -812,10 +821,11 @@
             const saveToContacts = (guide) => {
                 const vCard = `BEGIN:VCARD
 VERSION:3.0
-FN:${guide.cognome} ${guide.nome} - ${guide.categoria}
-N:${guide.cognome};${guide.nome};;;
+FN:${guide.cognome} ${guide.nome}
+N:${guide.cognome} - ${guide.categoria};${guide.nome};;;
+NICKNAME:Cat. ${guide.categoria}
 TEL;TYPE=CELL:+39${guide.cellulare.replace(/[^0-9]/g, '')}
-NOTE:Emissione Foglio Rosa: ${new Date(guide.emissione).toLocaleDateString('it-IT')}\\nScadenza Foglio Rosa: ${new Date(guide.scadenza).toLocaleDateString('it-IT')}\\n\\nABA Autoscuole - Guida Moto
+NOTE:Categoria Patente: ${guide.categoria}\\nEmissione F.R.: ${new Date(guide.emissione).toLocaleDateString('it-IT')}\\nScadenza F.R.: ${new Date(guide.scadenza).toLocaleDateString('it-IT')}\\n\\nABA Autoscuole
 ORG:ABA Autoscuole
 END:VCARD`;
                 

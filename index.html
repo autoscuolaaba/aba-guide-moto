@@ -812,12 +812,11 @@
             const saveToContacts = (guide) => {
                 const vCard = `BEGIN:VCARD
 VERSION:3.0
-FN:${guide.cognome} ${guide.nome}
+FN:${guide.cognome} ${guide.nome} - ${guide.categoria}
 N:${guide.cognome};${guide.nome};;;
-TITLE:Guida Moto - Categoria ${guide.categoria}
 TEL;TYPE=CELL:+39${guide.cellulare.replace(/[^0-9]/g, '')}
-NOTE:CATEGORIA PATENTE: ${guide.categoria}\\n\\nEmissione Foglio Rosa: ${new Date(guide.emissione).toLocaleDateString('it-IT')}\\nScadenza Foglio Rosa: ${new Date(guide.scadenza).toLocaleDateString('it-IT')}\\n\\nABA Autoscuole
-ORG:ABA Autoscuole;Categoria ${guide.categoria}
+NOTE:Emissione Foglio Rosa: ${new Date(guide.emissione).toLocaleDateString('it-IT')}\\nScadenza Foglio Rosa: ${new Date(guide.scadenza).toLocaleDateString('it-IT')}\\n\\nABA Autoscuole - Guida Moto
+ORG:ABA Autoscuole
 END:VCARD`;
                 
                 const blob = new Blob([vCard], { type: 'text/vcard' });
@@ -833,7 +832,7 @@ END:VCARD`;
                 document.body.removeChild(link);
                 URL.revokeObjectURL(url);
                 
-                alert(`✅ Contatto salvato!\n\n${guide.cognome} ${guide.nome}\nCategoria: ${guide.categoria}\n\nIl file .vcf è stato scaricato.\nAprilo per aggiungere il contatto alla rubrica.`);
+                alert(`✅ Contatto salvato!\n\n${guide.cognome} ${guide.nome} - ${guide.categoria}\n\nIl file .vcf è stato scaricato.\nAprilo per aggiungere il contatto alla rubrica.`);
             };
             
             const shareGarageLocation = () => {
